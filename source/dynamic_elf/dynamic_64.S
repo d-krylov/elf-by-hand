@@ -41,9 +41,6 @@ MESSAGE:
         .word      ELF_HEADER_SIZE                      //e_ehsize
         .word      PROGRAM_HEADER_SIZE                  //e_phentsize
         .word      0x0003                               //e_phnum
-        .word      0x0000                               //e_shentsize
-        .word      0x0000                               //e_shnum
-        .word      0x0000                               //e_shstrndx
 
         .set       ELF_HEADER_SIZE,       . - ELF_HEADER
         .set       PROGRAM_HEADER_OFFSET, . - ELF_HEADER
