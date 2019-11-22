@@ -95,11 +95,11 @@ DYNAMIC_TABLE:
         .quad      4,  HASH_TABLE_OFFSET                //d_tag = DT_HASH
         .quad      5,  STRING_TABLE_OFFSET              //d_tag = DT_STRTAB
         .quad      6,  SYMBOL_TABLE_OFFSET              //d_tag = DT_SYMTAB
+        .quad      7,  RELOCATIONS_TABLE_OFFSET         //d_tag = DT_REL
+        .quad      8,  RELOCATIONS_TABLE_SIZE           //d_tag = DT_RELSZ
+        .quad      9,  24                               //d_tag = DT_RELENT
         .quad      10, STRING_TABLE_SIZE                //d_tag = DT_STRSZ
         .quad      11, SYMBOL_TABLE_SIZE                //d_tag = DT_SYMENT
-        .quad      17, RELOCATIONS_TABLE_OFFSET         //d_tag = DT_REL
-        .quad      18, RELOCATIONS_TABLE_SIZE           //d_tag = DT_RELSZ
-        .quad      19, 8                                //d_tag = DT_RELENT
         .quad      0,  0                                //d_tag = DT_NULL
 
         .set       DYNAMIC_TABLE_SIZE, . - DYNAMIC_TABLE
@@ -142,8 +142,9 @@ RELOCATIONS_TABLE:
 
         .quad      PRINTF_RELOCATION 
         .quad      0x0000000100000001
-
-        .set       RELOCATIONS_TABLE_SIZE, . - RELOCATIONS_TABLE     
+        .quad      0x0000000000000000
+        .set       RELOCATIONS_TABLE_SIZE, . - RELOCATIONS_TABLE 
+             
      
         .set       STRING_TABLE_OFFSET, . - ELF_HEADER + BASE
         
@@ -181,4 +182,4 @@ _start:
       
        .set        PRINTF_RELOCATION, . - ELF_HEADER + BASE
 
-       .set        MEMORY_SIZE, . - ELF_HEADER + 8
+       .set        MEMORY_SIZE, . - ELF_HEADER + 32
