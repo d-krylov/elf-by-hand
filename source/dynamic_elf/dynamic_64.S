@@ -41,6 +41,9 @@ MESSAGE:
         .word      ELF_HEADER_SIZE                      //e_ehsize
         .word      PROGRAM_HEADER_SIZE                  //e_phentsize
         .word      0x0003                               //e_phnum
+        .word      0x0000                               //e_shentsize
+        .word      0x0000                               //e_shnum
+        .word      0x0000                               //e_shstrndx
 
         .set       ELF_HEADER_SIZE,       . - ELF_HEADER
         .set       PROGRAM_HEADER_OFFSET, . - ELF_HEADER
@@ -91,11 +94,12 @@ DYNAMIC_TABLE:
         .quad      4,  HASH_TABLE_OFFSET                //d_tag = DT_HASH
         .quad      5,  STRING_TABLE_OFFSET              //d_tag = DT_STRTAB
         .quad      6,  SYMBOL_TABLE_OFFSET              //d_tag = DT_SYMTAB
+        .quad      7,  RELOCATIONS_TABLE_OFFSET         //d_tag = DT_REL
+        .quad      8,  RELOCATIONS_TABLE_SIZE           //d_tag = DT_RELSZ
+        .quad      9,  24                               //d_tag = DT_RELENT
         .quad      10, STRING_TABLE_SIZE                //d_tag = DT_STRSZ
         .quad      11, SYMBOL_TABLE_SIZE                //d_tag = DT_SYMENT
-        .quad      17, RELOCATIONS_TABLE_OFFSET         //d_tag = DT_REL
-        .quad      18, RELOCATIONS_TABLE_SIZE           //d_tag = DT_RELSZ
-        .quad      19, 8                                //d_tag = DT_RELENT
+   
         .quad      0,  0                                //d_tag = DT_NULL
 
         .set       DYNAMIC_TABLE_SIZE, . - DYNAMIC_TABLE
@@ -145,9 +149,11 @@ RELOCATIONS_TABLE:
 
         .quad      DLOPEN_RELOCATION 
         .quad      0x0000000100000001
-
+        .quad      0x0000000000000000
+        
         .quad      DLSYM_RELOCATION 
         .quad      0x0000000200000001
+        .quad      0x0000000000000000
 
         .set       RELOCATIONS_TABLE_SIZE, . - RELOCATIONS_TABLE     
      
@@ -195,4 +201,4 @@ _start:
        .set        DLOPEN_RELOCATION, . - ELF_HEADER + BASE
        .set        DLSYM_RELOCATION,  . - ELF_HEADER + BASE + 8
 
-       .set        MEMORY_SIZE, . - ELF_HEADER + 16
+       .set        MEMORY_SIZE, . - ELF_HEADER + 64
