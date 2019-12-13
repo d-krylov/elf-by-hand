@@ -161,7 +161,11 @@ STRING_TABLE:
         .string    "dlopen"
         .set       DLSYM_NAME,   . - STRING_TABLE
         .string    "dlsym" 
-        
+
+        .set       LIBC_NAME,    . - STRING_NAME     
+        .string    "libc.so.6"
+        .set       PRINTF_NAME,  . - STRING_TABLE
+        .string    "printf"
         .set       STRING_TABLE_SIZE, . - STRING_TABLE
         
         .set       INTERPRETER_SECTION_OFFSET, . - ELF_HEADER
